@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <style>
+    :root {
+      --color-text-primary: #111827;
+      --color-text-secondary: #6b7280;
+
+      --color-background-primary: #ffffff;
+      --color-background-secondary: #f8fafc;
+      --color-background-info: #dbeafe;
+      --color-background-success: #dcfce7;
+      --color-background-warning: #fef3c7;
+
+      --color-border-tertiary: #e5e7eb;
+      --color-border-secondary: #d1d5db;
+      --color-border-info: #60a5fa;
+      --color-border-success: #4ade80;
+      --color-border-warning: #f59e0b;
+
+      --color-text-info: #2563eb;
+      --color-text-success: #16a34a;
+      --color-text-warning: #d97706;
+      --color-text-danger: #dc2626;
+
+      --border-radius-md: 8px;
+      --border-radius-lg: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans, sans-serif);
+      background: transparent;
+      color: var(--color-text-primary);
+      padding: 0 10px 10px 10px;
+    }
+
+    .container{
+      margin: auto;
+      max-width: 100vh;
+    }
+
+    .manual-header {
+      padding: 2rem 0 1.5rem;
+      border-bottom: 0.5px solid var(--color-border-tertiary);
+      margin-bottom: 2rem;
+    }
+
+    .manual-header h1 {
+      font-size: 22px;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .manual-header p {
+      font-size: 14px;
+      color: var(--color-text-secondary);
+    }
+
+    .phase-nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .phase-btn {
+      padding: 6px 14px;
+      font-size: 13px;
+      border-radius: 20px;
+      border: 0.5px solid var(--color-border-secondary);
+      background: transparent;
+      cursor: pointer;
+      color: var(--color-text-secondary);
+      transition: all .15s;
+    }
+
+    .phase-btn.active {
+      background: var(--color-background-info);
+      color: var(--color-text-info);
+      border-color: var(--color-border-info);
+      font-weight: 500;
+    }
+
+    .phase-btn:hover:not(.active) {
+      background: var(--color-background-secondary);
+    }
+
+    .phase {
+      display: none;
+    }
+
+    .phase.active {
+      display: block;
+    }
+
+    .phase-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 1.25rem 1.5rem;
+      border-radius: var(--border-radius-lg);
+      border: 0.5px solid var(--color-border-tertiary);
+      background: var(--color-background-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .phase-number {
+      font-size: 28px;
+      font-weight: 500;
+      min-width: 48px;
+      line-height: 1;
+      padding-top: 2px;
+    }
+
+    .phase-header h2 {
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .phase-header p {
+      font-size: 14px;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+    }
+
+    .section {
+      margin-bottom: 1.75rem;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--color-text-secondary);
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 0.5px solid var(--color-border-tertiary);
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+    }
+
+    .tool-card {
+      padding: 12px 14px;
+      border-radius: var(--border-radius-md);
+      border: 0.5px solid var(--color-border-tertiary);
+      background: var(--color-background-primary);
+    }
+
+    .tool-card .tool-name {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .tool-card .tool-desc {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+    }
+
+    .deliverable-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .deliverable-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: var(--border-radius-md);
+      border: 0.5px solid var(--color-border-tertiary);
+      background: var(--color-background-primary);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .deliverable-item .doc-icon {
+      font-size: 16px;
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+
+    .deliverable-item strong {
+      font-weight: 500;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .deliverable-item span {
+      color: var(--color-text-secondary);
+      font-size: 12px;
+    }
+
+    .example-box {
+      background: var(--color-background-secondary);
+      border: 0.5px solid var(--color-border-tertiary);
+      border-left: 3px solid var(--color-border-info);
+      border-radius: var(--border-radius-md);
+      padding: 12px 16px;
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--color-text-secondary);
+    }
+
+    .example-box strong {
+      color: var(--color-text-primary);
+      font-weight: 500;
+    }
+
+    .tip-box {
+      background: var(--color-background-warning);
+      border: 0.5px solid var(--color-border-warning);
+      border-radius: var(--border-radius-md);
+      padding: 10px 14px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--color-text-warning);
+      margin-top: 10px;
+    }
+
+    .checklist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+    }
+
+    .check-group {
+      background: var(--color-background-primary);
+      border: 0.5px solid var(--color-border-tertiary);
+      border-radius: var(--border-radius-lg);
+      padding: 14px 16px;
+    }
+
+    .check-group h3 {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 10px;
+      color: var(--color-text-secondary);
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 5px 0;
+      font-size: 13px;
+      cursor: pointer;
+      border-bottom: 0.5px solid var(--color-border-tertiary);
+      line-height: 1.5;
+    }
+
+    .check-item:last-child {
+      border-bottom: none;
+    }
+
+    .check-item input[type=checkbox] {
+      margin-top: 2px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .check-item label {
+      cursor: pointer;
+      color: var(--color-text-primary);
+    }
+
+    .check-item.checked label {
+      color: var(--color-text-secondary);
+      text-decoration: line-through;
+    }
+
+    .progress-bar-wrap {
+      margin-bottom: 1.5rem;
+    }
+
+    .progress-label {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .progress-track {
+      height: 6px;
+      background: var(--color-background-secondary);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--color-text-info);
+      border-radius: 3px;
+      transition: width .3s ease;
+    }
+
+    .reset-btn {
+      padding: 8px 20px;
+      font-size: 13px;
+      border-radius: var(--border-radius-md);
+      border: 0.5px solid var(--color-border-secondary);
+      background: transparent;
+      cursor: pointer;
+      color: var(--color-text-secondary);
+      margin-top: 1rem;
+    }
+
+    .reset-btn:hover {
+      background: var(--color-background-secondary);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="manual-header">
+      <h1>Análise e Modelagem de Sistemas</h1>
+      <p>Guia cronológico de análise e modelagem — do problema ao sistema documentado</p>
+    </div>
+
+    <div class="phase-nav">
+      <button class="phase-btn active" onclick="showPhase(0)">1 · Entendimento</button>
+      <button class="phase-btn" onclick="showPhase(1)">2 · Stakeholders</button>
+      <button class="phase-btn" onclick="showPhase(2)">3 · Processos AS IS</button>
+      <button class="phase-btn" onclick="showPhase(3)">4 · Requisitos</button>
+      <button class="phase-btn" onclick="showPhase(4)">5 · Modelagem TO BE</button>
+      <button class="phase-btn" onclick="showPhase(5)">6 · UML / Diagramas</button>
+      <button class="phase-btn" onclick="showPhase(6)">7 · Riscos & Testes</button>
+      <button class="phase-btn active-check" onclick="showPhase(7)">✓ Checklist Final</button>
+    </div>
+
+    <!-- FASE 1 -->
+    <div class="phase active" id="phase-0">
+      <div class="phase-header">
+        <div class="phase-number" style="color: var(--color-text-info);">01</div>
+        <div>
+          <h2>Entendimento do Problema e Contexto</h2>
+          <p>Antes de qualquer diagrama ou documento, você precisa entender o negócio. Essa fase é sobre escutar,
+            questionar e registrar. Sem ela, tudo que vier depois pode estar errado desde o início.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">O que fazer nessa etapa</div>
+        <div class="deliverable-list">
+          <div class="deliverable-item">
+            <span class="doc-icon"><i class="ti ti-messages" aria-hidden="true"></i></span>
+            <div><strong>Entrevistas com usuários e gestores</strong><span>Pergunte: "Como funciona hoje?", "O que não
+                funciona bem?", "O que você gostaria de melhorar?"</span></div>
+          </div>
+          <div class="deliverable-item">
+            <span class="doc-icon"><i class="ti ti-notes" aria-hidden="true"></i></span>
+            <div><strong>Registro de problemas e oportunidades</strong><span>Anote os "pontos de dor" relatados — esses
+                viram requisitos depois</span></div>
+          </div>
+          <div class="deliverable-item">
+            <span class="doc-icon"><i class="ti ti-building" aria-hidden="true"></i></span>
+            <div><strong>Entendimento do negócio</strong><span>Qual o setor? Qual o objetivo do sistema? Quem são os
+                clientes?</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Exemplo prático</div>
+        <div class="example-box">
+          <strong>Situação:</strong> Uma farmácia quer um sistema de controle de estoque.<br><br>
+          Antes de modelar qualquer coisa, você entrevista o farmacêutico e descobre: <em>"Todo mês eu perco
+            medicamentos
+            vencidos porque não sei o que está prestes a vencer"</em> e <em>"Às vezes vendo um produto que acabou porque
+            o
+            sistema não atualiza na hora."</em><br><br>
+          Esses dois problemas já orientam boa parte dos requisitos que virão.
+        </div>
+        <div class="tip-box">⚡ Dica: Use a técnica dos <strong>5 Porquês</strong> — quando alguém citar um problema,
+          pergunte "por quê?" cinco vezes. Você vai chegar na causa raiz, não no sintoma.</div>
+      </div>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="phase" id="phase-1">
+      <div class="phase-header">
+        <div class="phase-number" style="color: var(--color-text-info);">02</div>
+        <div>
+          <h2>Levantamento de Stakeholders e Matriz RACI</h2>
+          <p>Stakeholders são todas as pessoas que afetam ou são afetadas pelo sistema. Identificá-los cedo evita
+            surpresas tardias e conflitos de requisitos.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Quem são os stakeholders?</div>
+        <div class="tool-grid">
+          <div class="tool-card">
+            <div class="tool-name">Usuários diretos</div>
+            <div class="tool-desc">Quem vai usar o sistema no dia a dia (ex: atendente, caixa, operador)</div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-name">Gestores</div>
+            <div class="tool-desc">Quem toma decisões e aprova o projeto (ex: gerente, diretor)</div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-name">TI / Técnicos</div>
+            <div class="tool-desc">Equipe que vai desenvolver e manter o sistema</div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-name">Externos</div>
+            <div class="tool-desc">Fornecedores, parceiros, clientes, órgãos reguladores</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Matriz RACI — o que entregar</div>
+        <div class="example-box">
+          <strong>RACI</strong> = Responsável · Aprovador · Consultado · Informado<br><br>
+          <table style="width:100%; border-collapse: collapse; font-size: 12px; margin-top: 8px;">
+            <tr style="font-weight:500;">
+              <td style="padding: 6px 8px; border-bottom: 0.5px solid var(--color-border-tertiary);">Atividade</td>
+              <td style="padding: 6px 8px; border-bottom: 0.5px solid var(--color-border-tertiary); text-align:center;">
+                Analista</td>
+              <td style="padding: 6px 8px; border-bottom: 0.5px solid var(--color-border-tertiary); text-align:center;">
+                Gerente</td>
+              <td style="padding: 6px 8px; border-bottom: 0.5px solid var(--color-border-tertiary); text-align:center;">
+                Dev</td>
+              <td style="padding: 6px 8px; border-bottom: 0.5px solid var(--color-border-tertiary); text-align:center;">
+                Usuário</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 8px; font-size:12px;">Levantar requisitos</td>
+              <td style="text-align:center; padding: 6px 8px; color: var(--color-text-info); font-weight:500;">R</td>
+              <td style="text-align:center; padding: 6px 8px; color: var(--color-text-success);">A</td>
+              <td style="text-align:center; padding: 6px 8px; color: var(--color-text-secondary);">C</td>
+              <td style="text-align:center; padding: 6px 8px; color: var(--color-text-secondary);">C</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 8px; font-size:12px;">Validar protótipo</td>
+              <td style="text-align:center; padding: 6px 8px; color: var(--color-text-info); font-weight:500;">R</td>
+              <td style="text-align:center; padding: 6px 8px; color: var(--color-text-success);">A</td>
+              <td style="text-align:center; padding: 6px 8px; color: var(--color-text-secondary);">I</td>
+              <td style="text-align:center; padding: 6px 8px; color: var(--color-text-secondary);">C</td>
+            </tr>
+          </table>
+        </div>
+        <div class="tip-box">⚡ Dica: A Matriz RACI evita o clássico "achei que era você que ia fazer isso". Defina no
+          início quem aprova cada entrega.</div>
+      </div>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="phase" id="phase-2">
+      <div class="phase-header">
+        <div class="phase-number" style="color: var(--color-text-info);">03</div>
+        <div>
+          <h2>Mapeamento do Processo AS IS (situação atual)</h2>
+          <p>Documentar como o processo funciona hoje — com todos os seus problemas e gambiarras. Isso serve como linha
+            de
+            base para propor melhorias depois.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Ferramentas e notações</div>
+        <div class="tool-grid">
+          <div class="tool-card">
+            <div class="tool-name">BPMN</div>
+            <div class="tool-desc">Business Process Model and Notation — padrão internacional para mapear processos com
+              raias, eventos, atividades e gateways</div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-name">DFD</div>
+            <div class="tool-desc">Diagrama de Fluxo de Dados — mostra como os dados fluem entre processos, entidades
+              externas e depósitos</div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-name">Fluxograma simples</div>
+            <div class="tool-desc">Mais informal, bom para esboços rápidos em entrevistas. Depois formalizar em BPMN
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Elementos-chave do BPMN para lembrar</div>
+        <div class="deliverable-list">
+          <div class="deliverable-item">
+            <span class="doc-icon"><i class="ti ti-circle" aria-hidden="true"></i></span>
+            <div><strong>Eventos (círculos)</strong><span>Início (borda simples), Intermediário (borda dupla), Fim
+                (borda
+                grossa). Sempre há um evento de início e pelo menos um de fim.</span></div>
+          </div>
+          <div class="deliverable-item">
+            <span class="doc-icon"><i class="ti ti-square" aria-hidden="true"></i></span>
+            <div><strong>Atividades / Tarefas (retângulos arredondados)</strong><span>O que alguém ou o sistema faz. Use
+                verbos no infinitivo: "Validar CPF", "Emitir NF"</span></div>
+          </div>
+          <div class="deliverable-item">
+            <span class="doc-icon"><i class="ti ti-diamond" aria-hidden="true"></i></span>
+            <div><strong>Gateways (losangos)</strong><span>Pontos de decisão ou paralelismo. Gateway Exclusivo (X) = só
+                um
+                caminho. Paralelo (+) = todos os caminhos.</span></div>
+          </div>
+          <div class="deliverable-item">
+            <span class="doc-icon"><i class="ti ti-layout-rows" aria-hidden="true"></i></span>
+            <div><strong>Piscinas e raias (Pools e Lanes)</strong><span>Piscina = organização (ex: Empresa). Raias
+                dentro
+                da piscina = departamentos ou papéis (ex: Vendas, Financeiro).</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">O que entregar ao final desta fase</div>
+        <div class="example-box">
+          <strong>Diagrama AS IS em BPMN</strong> com raias por responsável, descrevendo o processo atual completo,
+          incluindo pontos de decisão, esperas e exceções. Ferramentas sugeridas: Bizagi Modeler (gratuito), Lucidchart,
+          draw.io.<br><br>
+          <strong>Observações de problemas</strong> identificados no processo: gargalos, retrabalho, atividades manuais
+          que poderiam ser automatizadas, etapas sem responsável claro.
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="phase" id="phase-3">
+      <div class="phase-header">
+        <div class="phase-number" style="color: var(--color-text-info);">04</div>
+        <div>
+          <h2>Engenharia de Requisitos</h2>
+          <p>Requisitos são o coração do projeto. São eles que dizem o que o sistema deve fazer (e como deve se
+            comportar). Mal levantados = projeto fracassado.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Tipos de requisitos</div>
+        <div class="tool-grid">
+          <div class="tool-card" style="border-color: var(--color-border-info);">
+            <div class="tool-name" style="color: var(--color-text-info);">Funcionais (RF)</div>
+            <div class="tool-desc">O que o sistema deve fazer. Funcionalidades, comportamentos, regras de
+              negócio.<br><br>Ex: "O sistema deve permitir cadastrar medicamentos com data de validade."</div>
+          </div>
+          <div class="tool-card" style="border-color: var(--color-border-warning);">
+            <div class="tool-name" style="color: var(--color-text-warning);">Não Funcionais (RNF)</div>
+            <div class="tool-desc">Como o sistema deve se comportar. Performance, segurança, usabilidade,
+              disponibilidade.<br><br>Ex: "O sistema deve responder em menos de 2 segundos."</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Como documentar um requisito (exemplo)</div>
+        <div class="example-box">
+          <strong>RF-001 — Controle de validade</strong><br>
+          <em>Descrição:</em> O sistema deve alertar o farmacêutico quando um medicamento atingir 30 dias antes do
+          vencimento.<br>
+          <em>Prioridade:</em> Alta<br>
+          <em>Origem:</em> Entrevista com farmacêutico (03/06/2025)<br>
+          <em>Critério de aceite:</em> Sistema exibe notificação na tela inicial com nome, quantidade e data de
+          vencimento
+          dos itens críticos.<br><br>
+          <strong>RNF-001 — Disponibilidade</strong><br>
+          <em>Descrição:</em> O sistema deve estar disponível 99,5% do tempo em horário comercial (8h–20h).<br>
+          <em>Critério de aceite:</em> Máximo de 22 minutos de indisponibilidade por mês nesses horários.
+        </div>
+        <div class="tip-box">⚡ Todo requisito precisa de um critério de aceite — uma frase que diz "quando isso está
+          feito
+          e aprovado". Sem ele, ninguém sabe quando termina.</div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Técnicas de levantamento de requisitos</div>
+        <div class="deliverable-list">
+          <div class="deliverable-item"><span class="doc-icon"><i class="ti ti-users" aria-hidden="true"></i></span>
+            <div><strong>Entrevistas</strong><span>1 a 1 com stakeholders — mais rico, porém demorado</span></div>
+          </div>
+          <div class="deliverable-item"><span class="doc-icon"><i class="ti ti-eye" aria-hidden="true"></i></span>
+            <div><strong>Observação</strong><span>Acompanhe o usuário no trabalho real — descobre coisas que ele não
+                conta
+                em entrevista</span></div>
+          </div>
+          <div class="deliverable-item"><span class="doc-icon"><i class="ti ti-file-description"
+                aria-hidden="true"></i></span>
+            <div><strong>Análise de documentos</strong><span>Formulários, relatórios, planilhas existentes revelam dados
+                e
+                regras implícitas</span></div>
+          </div>
+          <div class="deliverable-item"><span class="doc-icon"><i class="ti ti-device-desktop"
+                aria-hidden="true"></i></span>
+            <div><strong>Prototipação</strong><span>Mostrar uma tela mesmo que simples — o usuário entende melhor o que
+                quer ao ver algo concreto</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 5 -->
+    <div class="phase" id="phase-4">
+      <div class="phase-header">
+        <div class="phase-number" style="color: var(--color-text-info);">05</div>
+        <div>
+          <h2>Modelagem do Processo TO BE (situação futura)</h2>
+          <p>Com o AS IS mapeado e os requisitos levantados, agora você projeta como o processo vai funcionar com o novo
+            sistema — mais eficiente, sem os problemas identificados.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Diferença entre AS IS e TO BE</div>
+        <div class="tool-grid">
+          <div class="tool-card">
+            <div class="tool-name">AS IS — Processo Atual</div>
+            <div class="tool-desc">Descreve a realidade de hoje, com todos os problemas. Serve para entender e
+              identificar
+              melhorias.</div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-name">TO BE — Processo Futuro</div>
+            <div class="tool-desc">Descreve como o processo vai funcionar após a solução. Etapas manuais viram
+              automáticas, fluxos são simplificados.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Exemplo de transformação AS IS → TO BE</div>
+        <div class="example-box">
+          <strong>Processo: Controle de estoque de medicamentos</strong><br><br>
+          <em>AS IS:</em> Farmacêutico verifica planilha manualmente toda semana → conta estoque físico → anota
+          diferenças
+          no caderno → avisa fornecedor por telefone → espera confirmação por e-mail.<br><br>
+          <em>TO BE:</em> Sistema atualiza estoque em tempo real a cada venda → alerta automático quando item atinge
+          estoque mínimo → pedido de compra gerado automaticamente → fornecedor recebe pedido via integração e confirma
+          no
+          sistema.
+        </div>
+        <div class="tip-box">⚡ Ao construir o TO BE em BPMN, use as mesmas raias do AS IS. Assim fica fácil comparar e
+          mostrar para os stakeholders o que mudou.</div>
+      </div>
+    </div>
+
+    <!-- FASE 6 -->
+    <div class="phase" id="phase-5">
+      <div class="phase-header">
+        <div class="phase-number" style="color: var(--color-text-info);">06</div>
+        <div>
+          <h2>Modelagem UML e Diagramas do Sistema</h2>
+          <p>UML (Unified Modeling Language) é a linguagem padrão para documentar sistemas orientados a objetos. Você
+            vai
+            criar diferentes visões do sistema usando diagramas específicos.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Diagrama de Caso de Uso — o primeiro a fazer</div>
+        <div class="example-box">
+          <strong>Objetivo:</strong> Mostrar o que o sistema faz, do ponto de vista de quem usa.<br><br>
+          <strong>Elementos:</strong><br>
+          🧑 Ator = quem interage com o sistema (usuário, sistema externo)<br>
+          ⭕ Caso de uso = funcionalidade do sistema (elipse com nome no infinitivo)<br>
+          — Associação = linha ligando ator ao caso de uso<br>
+          «include» = um caso de uso que sempre inclui outro<br>
+          «extend» = um caso de uso que pode incluir outro opcionalmente<br><br>
+          <strong>Exemplo:</strong> Ator "Farmacêutico" → "Consultar estoque", "Registrar venda", "Emitir alerta de
+          vencimento"
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Outros diagramas UML importantes</div>
+        <div class="deliverable-list">
+          <div class="deliverable-item">
+            <span class="doc-icon"><i class="ti ti-box" aria-hidden="true"></i></span>
+            <div><strong>Diagrama de Classes</strong><span>Estrutura do sistema OO: classes, atributos, métodos e
+                relacionamentos (herança, composição, associação). Base para o desenvolvimento.</span></div>
+          </div>
+          <div class="deliverable-item">
+            <span class="doc-icon"><i class="ti ti-arrows-right-left" aria-hidden="true"></i></span>
+            <div><strong>Diagrama de Sequência</strong><span>Como os objetos interagem ao longo do tempo para realizar
+                um
+                caso de uso. Mostra troca de mensagens com linha do tempo.</span></div>
+          </div>
+          <div class="deliverable-item">
+            <span class="doc-icon"><i class="ti ti-state-machine" aria-hidden="true"></i></span>
+            <div><strong>Diagrama de Estados</strong><span>Estados que um objeto pode assumir e as transições entre
+                eles.
+                Ex: Pedido pode ser (Aberto → Em processamento → Enviado → Entregue → Cancelado).</span></div>
+          </div>
+          <div class="deliverable-item">
+            <span class="doc-icon"><i class="ti ti-list" aria-hidden="true"></i></span>
+            <div><strong>Diagrama de Atividades</strong><span>Parecido com fluxograma, mas com notação UML. Bom para
+                detalhar a lógica de um caso de uso complexo.</span></div>
+          </div>
+        </div>
+        <div class="tip-box">⚡ Não é necessário fazer todos os diagramas — escolha os que agregam valor para comunicar o
+          sistema. Diagrama de Caso de Uso + Classes são os mais usados na prática.</div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Documentando casos de uso em detalhe</div>
+        <div class="example-box">
+          <strong>UC-001: Registrar Venda</strong><br>
+          <em>Ator principal:</em> Operador de caixa<br>
+          <em>Pré-condição:</em> Operador autenticado no sistema<br>
+          <em>Fluxo principal:</em><br>
+          1. Operador escaneia código de barras do produto<br>
+          2. Sistema exibe nome, preço e estoque disponível<br>
+          3. Operador confirma quantidade<br>
+          4. Sistema atualiza estoque e gera comprovante<br>
+          <em>Fluxo alternativo:</em> Se produto não encontrado → sistema exibe mensagem de erro<br>
+          <em>Pós-condição:</em> Estoque atualizado; venda registrada no histórico
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 7 -->
+    <div class="phase" id="phase-6">
+      <div class="phase-header">
+        <div class="phase-number" style="color: var(--color-text-info);">07</div>
+        <div>
+          <h2>Gestão de Riscos, Critérios de Aceite e Estratégia de Testes</h2>
+          <p>Antes de encerrar a análise, você precisa antecipar o que pode dar errado, definir como será validado e
+            planejar os testes.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Gestão de riscos — tabela básica</div>
+        <div class="example-box">
+          <table style="width:100%; border-collapse: collapse; font-size: 12px;">
+            <tr style="font-weight:500; border-bottom: 0.5px solid var(--color-border-tertiary);">
+              <td style="padding:6px 8px;">Risco</td>
+              <td style="padding:6px 8px; text-align:center;">Probab.</td>
+              <td style="padding:6px 8px; text-align:center;">Impacto</td>
+              <td style="padding:6px 8px;">Ação</td>
+            </tr>
+            <tr style="border-bottom: 0.5px solid var(--color-border-tertiary);">
+              <td style="padding:6px 8px; font-size:12px;">Requisitos mal levantados</td>
+              <td style="padding:6px 8px; text-align:center; color: var(--color-text-warning);">Alta</td>
+              <td style="padding:6px 8px; text-align:center; color: var(--color-text-danger);">Alto</td>
+              <td style="padding:6px 8px; font-size:12px;">Validar com cliente em ciclos curtos</td>
+            </tr>
+            <tr style="border-bottom: 0.5px solid var(--color-border-tertiary);">
+              <td style="padding:6px 8px; font-size:12px;">Stakeholder indisponível</td>
+              <td style="padding:6px 8px; text-align:center; color: var(--color-text-warning);">Média</td>
+              <td style="padding:6px 8px; text-align:center; color: var(--color-text-warning);">Médio</td>
+              <td style="padding:6px 8px; font-size:12px;">Definir substituto na Matriz RACI</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 8px; font-size:12px;">Escopo crescente (scope creep)</td>
+              <td style="padding:6px 8px; text-align:center; color: var(--color-text-danger);">Alta</td>
+              <td style="padding:6px 8px; text-align:center; color: var(--color-text-warning);">Médio</td>
+              <td style="padding:6px 8px; font-size:12px;">Congela escopo por escrito aprovado</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Critérios de aceite e estratégia de testes</div>
+        <div class="deliverable-list">
+          <div class="deliverable-item">
+            <span class="doc-icon"><i class="ti ti-check" aria-hidden="true"></i></span>
+            <div><strong>Critério de aceite</strong><span>Cada requisito precisa de um critério objetivo. Ex: RF-001
+                está
+                aceito quando o sistema exibe alerta em menos de 5 segundos após detectar produto com validade ≤ 30
+                dias.</span></div>
+          </div>
+          <div class="deliverable-item">
+            <span class="doc-icon"><i class="ti ti-test-pipe" aria-hidden="true"></i></span>
+            <div><strong>Testes funcionais</strong><span>Verificam se o sistema faz o que o requisito manda. Cada RF
+                vira
+                pelo menos um caso de teste.</span></div>
+          </div>
+          <div class="deliverable-item">
+            <span class="doc-icon"><i class="ti ti-cpu" aria-hidden="true"></i></span>
+            <div><strong>Testes não funcionais</strong><span>Verificam performance, carga, segurança. Ex: Simular 100
+                usuários simultâneos e medir tempo de resposta.</span></div>
+          </div>
+          <div class="deliverable-item">
+            <span class="doc-icon"><i class="ti ti-user-check" aria-hidden="true"></i></span>
+            <div><strong>Teste de aceite do usuário (UAT)</strong><span>O próprio usuário executa cenários reais para
+                validar se o sistema atende suas necessidades. Esse é o teste final.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECKLIST FINAL -->
+    <div class="phase" id="phase-7">
+      <div class="phase-header"
+        style="border-color: var(--color-border-success); background: var(--color-background-success);">
+        <div class="phase-number" style="color: var(--color-text-success);">✓</div>
+        <div>
+          <h2>Checklist Final do Analista de Sistemas</h2>
+          <p>Marque cada item antes de encerrar a análise e entregar a documentação. Todos marcados = projeto bem
+            documentado.</p>
+        </div>
+      </div>
+
+      <div class="progress-bar-wrap">
+        <div class="progress-label"><span>Progresso</span><span id="progress-text">0 / 28 itens</span></div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div class="checklist-grid" id="checklist-container">
+
+        <div class="check-group">
+          <h3><i class="ti ti-users" aria-hidden="true"></i> Stakeholders & Contexto</h3>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Todos os stakeholders
+              identificados</label></div>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Matriz RACI preenchida e
+              aprovada</label></div>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Objetivo do sistema
+              documentado</label></div>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Escopo delimitado e
+              registrado</label></div>
+        </div>
+
+        <div class="check-group">
+          <h3><i class="ti ti-map" aria-hidden="true"></i> Processos AS IS</h3>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Diagrama AS IS em BPMN
+              criado</label></div>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Problemas e gargalos
+              registrados</label></div>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Validado com o responsável
+              pelo processo</label></div>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>DFD do sistema atual (se
+              aplicável)</label></div>
+        </div>
+
+        <div class="check-group">
+          <h3><i class="ti ti-file-description" aria-hidden="true"></i> Requisitos</h3>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Todos os RF documentados com
+              ID</label></div>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Todos os RNF documentados
+              com
+              ID</label></div>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Prioridade definida por
+              requisito</label></div>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Rastreabilidade: requisito →
+              origem</label></div>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Requisitos validados com
+              stakeholders</label></div>
+        </div>
+
+        <div class="check-group">
+          <h3><i class="ti ti-arrows-right" aria-hidden="true"></i> Processo TO BE</h3>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Diagrama TO BE em BPMN
+              criado</label></div>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Melhorias identificadas
+              documentadas</label></div>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Aprovado pelos gestores
+              responsáveis</label></div>
+        </div>
+
+        <div class="check-group">
+          <h3><i class="ti ti-hexagon" aria-hidden="true"></i> Modelagem UML</h3>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Diagrama de Caso de Uso
+              criado</label></div>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Casos de uso detalhados
+              (fluxo
+              principal + alternativo)</label></div>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Diagrama de Classes
+              criado</label></div>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Diagramas adicionais
+              conforme
+              necessidade</label></div>
+        </div>
+
+        <div class="check-group">
+          <h3><i class="ti ti-alert-triangle" aria-hidden="true"></i> Riscos & Testes</h3>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Matriz de riscos
+              preenchida</label></div>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Critério de aceite definido
+              por RF</label></div>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Plano de testes funcionais
+              escrito</label></div>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Testes não funcionais
+              planejados</label></div>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>UAT (teste de aceite)
+              agendado
+              com usuário</label></div>
+        </div>
+
+        <div class="check-group">
+          <h3><i class="ti ti-file-check" aria-hidden="true"></i> Entregáveis Finais</h3>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Documento de Visão / Escopo
+              aprovado</label></div>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Especificação de Requisitos
+              (ERS) assinada</label></div>
+          <div class="check-item" onclick="toggleCheck(this)"><input type="checkbox"><label>Todos os diagramas
+              versionados
+              e salvos</label></div>
+        </div>
+
+      </div>
+
+      <button class="reset-btn" onclick="resetChecklist()"><i class="ti ti-refresh" aria-hidden="true"></i> Reiniciar
+        checklist</button>
+    </div>
+  </div>
+  <script>
+    const phases = document.querySelectorAll('.phase');
+    const btns = document.querySelectorAll('.phase-btn');
+
+    function showPhase(i) {
+      phases.forEach((p, j) => p.classList.toggle('active', j === i));
+      btns.forEach((b, j) => b.classList.toggle('active', j === i));
+    }
+
+    function toggleCheck(item) {
+      const cb = item.querySelector('input');
+      cb.checked = !cb.checked;
+      item.classList.toggle('checked', cb.checked);
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const all = document.querySelectorAll('.check-item input');
+      const done = document.querySelectorAll('.check-item input:checked');
+      const pct = Math.round((done.length / all.length) * 100);
+      document.getElementById('progress-fill').style.width = pct + '%';
+      document.getElementById('progress-text').textContent = done.length + ' / ' + all.length + ' itens';
+    }
+
+    function resetChecklist() {
+      document.querySelectorAll('.check-item').forEach(i => {
+        i.querySelector('input').checked = false;
+        i.classList.remove('checked');
+      });
+      updateProgress();
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista Bonita</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #c1c2ca 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            margin: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        a {
+            text-decoration: none;
+            background: #f8f9fa;
+            margin: 12px 0;
+            padding: 18px 24px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            font-size: 17px;
+            color: #444;
+        }
+
+        a:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+            background: white;
+        }
+
+        .icon {
+            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #c1c2ca, #ffffff);
+            color: white;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        a:hover .icon {
+            transform: scale(1.1) rotate(10deg);
+        }
+
+        .content {
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>MENU</h2>
+        <ul id="lista">
+            <li>
+                <a href="./pages/manual_analise_sistemas.html">
+                    <div class="icon">
+                        <img src="./imgs/analise.png" width="30px" alt="">
+                    </div>
+                    <div class="content">Análise e Modelagem de Sistemas</div>
+                </a>
+
+            </li>
+            <li>
+                <a href="https://github.com/L3l4ck561/Guia-sql-banco-relacional">
+                    <div class="icon">
+                        <img src="./imgs/bd.png" width="30px" alt="">
+                    </div>
+                    <div class="content">SQL para Banco Relacional</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</body>
+
+</html>
